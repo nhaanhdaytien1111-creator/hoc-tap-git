@@ -1,5 +1,5 @@
-// PROJECT: SOI TIEN SERVER - NINI
-console.log("🚨 HỆ THỐNG ĐÃ SẴN SÀNG!");
+/* === HE THONG SOI TIEN PRO - NINI === */
+let lastBalance = 0;
 
 const OrgWS = window.WebSocket;
 window.WebSocket = function(...args) {
@@ -8,7 +8,14 @@ window.WebSocket = function(...args) {
         try {
             const data = JSON.parse(e.data);
             if (data[0] === 3) {
-                console.log("💰 SỐ DƯ SERVER:", data[4].toLocaleString());
+                let currentBalance = data[4];
+                let diff = currentBalance - lastBalance;
+                
+                console.log("💰 SO DU HT:", currentBalance.toLocaleString());
+                if (lastBalance !== 0) {
+                    console.log(diff >= 0 ? "📈 BIEN DONG: +" + diff : "📉 BIEN DONG: " + diff);
+                }
+                lastBalance = currentBalance;
             }
         } catch (err) {}
     });
